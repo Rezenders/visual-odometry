@@ -24,8 +24,8 @@ void VideoSourceCV::init_from_minoruCV()
 {
 	std::cout << "  VideoSourceCVD_Linux: Opening video source(minoruCV)..." << std::endl;
 
-	leftCam.open(2);
-	rightCam.open(1);
+	leftCam.open(1);
+	rightCam.open(0);
 	try
 	{
 		if(!leftCam.isOpened())
