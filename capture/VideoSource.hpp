@@ -14,8 +14,6 @@
 #include <vector>
 #include <stdexcept>
 
-#include "image.h"
-#include "format_conversion.hpp"
 
 #define VIDEO_W 640
 #define VIDEO_H 480
