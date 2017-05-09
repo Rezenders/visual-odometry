@@ -35,16 +35,10 @@ void VideoSource::function_cap_left() {
     exit(0);
   }
 
-  while (leftCam.isOpened()) {
+  while (leftCam.grab()) {
     mutex_left.lock();
-    try {
-      if (!leftCam.grab()) {
-        throw std::runtime_error(std::string(" Couldn't grab the left camera"));
-      }
-    } catch (std::exception &e) {
-      std::cout << e.what();
-      exit(0);
-    }
+    std::cout<<"left"<<std::endl;
+
     leftCam.retrieve(tempImg, CV_8UC3);
     leftImg = tempImg;
     mutex_left.unlock();
@@ -67,29 +61,21 @@ void VideoSource::function_cap_right() {
   }
 
   while (rightCam.isOpened()) {
+    std::cout<<"right"<<std::endl;
     mutex_right.lock();
-    try {
-      if (!rightCam.grab()) {
-        throw std::runtime_error(
-            std::string(" Couldn't grab the right camera"));
-      }
-    } catch (std::exception &e) {
-      std::cout << e.what();
-      exit(0);
-    }
-    rightCam.retrieve(tempImg, CV_8UC3);
+    rightCam.read(tempImg);
     rightImg = tempImg;
+    mutex_right.unlock();
   }
-  mutex_right.unlock();
 }
 
 void VideoSource::grabRgbBw(cv::Mat &imBwL, cv::Mat &imBwR, cv::Mat &imRgbL, cv::Mat &imRgbR){
-  mutex_left.lock();
-  mutex_right.lock();
+  // mutex_left.lock();
+  // mutex_right.lock();
   imRgbL = leftImg;
   imRgbR = rightImg;
-  mutex_left.unlock();
-  mutex_right.unlock();
+  // mutex_left.unlock();
+  // mutex_right.unlock();
 
   cv::cvtColor(imRgbL, imBwL, cv::COLOR_RGB2GRAY);
 	cv::cvtColor(imRgbR, imBwR, cv::COLOR_RGB2GRAY);
