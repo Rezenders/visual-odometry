@@ -13,11 +13,13 @@ VideoSource::VideoSource(int height, int width) {
 
   thread_cap_left = std::thread(&VideoSource::function_cap_left, this);
   thread_cap_right = std::thread(&VideoSource::function_cap_right, this);
+
+  thread_cap_left.detach();
+  thread_cap_right.detach();
 }
 
 VideoSource::~VideoSource(){
-  thread_cap_left.join();
-  thread_cap_right.join();
+  std::cout<<"VideoSource destructor"<<std::endl;
 }
 
 void VideoSource::function_cap_left() {
@@ -36,12 +38,11 @@ void VideoSource::function_cap_left() {
   }
 
   while (leftCam.grab()) {
+    mutex_right.unlock();
     mutex_left.lock();
-    std::cout<<"left"<<std::endl;
 
     leftCam.retrieve(tempImg, CV_8UC3);
     leftImg = tempImg;
-    mutex_left.unlock();
   }
 }
 
@@ -60,12 +61,12 @@ void VideoSource::function_cap_right() {
     exit(0);
   }
 
-  while (rightCam.isOpened()) {
-    std::cout<<"right"<<std::endl;
+  while (rightCam.grab()) {
+    mutex_left.unlock();
     mutex_right.lock();
-    rightCam.read(tempImg);
+    
+    rightCam.retrieve(tempImg);
     rightImg = tempImg;
-    mutex_right.unlock();
   }
 }
 
