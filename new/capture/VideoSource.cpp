@@ -8,6 +8,9 @@ VideoSource::VideoSource(int height, int width) {
   camSize.height = height;
   camSize.width = width;
 
+  leftImg = cv::Mat(camSize, CV_8UC3);
+  rightImg = cv::Mat(camSize, CV_8UC3);
+
   thread_cap_left = std::thread(&VideoSource::function_cap_left, this);
   thread_cap_right = std::thread(&VideoSource::function_cap_right, this);
 }
@@ -78,4 +81,16 @@ void VideoSource::function_cap_right() {
     rightImg = tempImg;
   }
   mutex_right.unlock();
+}
+
+void VideoSource::grabRgbBw(cv::Mat &imBwL, cv::Mat &imBwR, cv::Mat &imRgbL, cv::Mat &imRgbR){
+  mutex_left.lock();
+  mutex_right.lock();
+  imRgbL = leftImg;
+  imRgbR = rightImg;
+  mutex_left.unlock();
+  mutex_right.unlock();
+
+  cv::cvtColor(imRgbL, imBwL, cv::COLOR_RGB2GRAY);
+	cv::cvtColor(imRgbR, imBwR, cv::COLOR_RGB2GRAY);
 }

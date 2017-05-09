@@ -39,6 +39,15 @@ public:
   ~VideoSource();
 
   /**
+  * \brief Pega as imagens capturadas
+  * \param[out] &imBwL Matriz que vai conter a Imagem preto e branca do lado esquerdo
+  * \param[out] &imBwR Matriz que vai conter a Imagem preto e branca do lado direito
+  * \param[out] &imRgbL Matriz que vai conter a Imagem RGB do lado esquerdo
+  * \param[out] &imRgbR Matriz que vai conter a Imagem RGB do lado direito
+  */
+  void grabRgbBw(cv::Mat &imBwL, cv::Mat &imBwR, cv::Mat &imRgbL, cv::Mat &imRgbR);
+
+  /**
   *\brief Retorna o tamanho da Imagem
   *\return Objeto cv::Size
   */
