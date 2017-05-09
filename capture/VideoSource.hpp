@@ -3,9 +3,7 @@
 
 
 #include <iostream>
-#include <cvd/colourspace_convert.h>
-#include <cvd/Linux/v4lbuffer.h>
-//~
+
 #include <opencv2/core/core.hpp>
 #include <opencv2/calib3d/calib3d.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -24,32 +22,6 @@
 
 enum Camera {minoruCV, minoruCVD};
 //~ struct VideoSourceData;
-
-class VideoSourceCVD
-{
- private:
-	Camera myCam;
-
-	void *mptr;
-	void *mptr1;
-	CVD::ImageRef mirSize;
-
-	void init_from_minoruCVD();
-
- public:
-	VideoSourceCVD(Camera cam);
-	~VideoSourceCVD();
-
-	FormatConversions conversion;
-
-	void GetAndFillFrameBWandRGB(CVD::Image<CVD::byte> &imBW, CVD::Image<CVD::Rgb<CVD::byte> > &imRGB);
-	void GetAndFillFrameBWandRGB(std::vector< CVD::Image<CVD::byte> > &imBW, std::vector< CVD::Image<CVD::Rgb<CVD::byte> > > &imRGB);
-	void GetAndFillFrameBWandRGB(CVD::Image<CVD::byte> &imBW1, CVD::Image<CVD::byte> &imBW2, CVD::Image<CVD::Rgb<CVD::byte> > &imRGB1, CVD::Image<CVD::Rgb<CVD::byte> > imRGB2);
-	void GetAndFillFrameBWandRGB(image<uchar> &imBW1, image<uchar> &imBw2, std::vector< CVD::Image<CVD::Rgb<CVD::byte> > > &imRGB);
-
-	inline CVD::ImageRef Size() { return mirSize;}
-
-};
 
 /**
 *\class VideoSourceCV
