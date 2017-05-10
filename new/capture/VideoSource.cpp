@@ -1,7 +1,7 @@
 #include "VideoSource.hpp"
 
 retification::retification(){
-  const char* filename = "../../../calib/cam_stereo.yml";
+  const char* filename = "../../calib/cam_stereo.yml";
   retification::readParameters(filename);
 }
 
@@ -15,7 +15,7 @@ retification::retification(cv::Size size, const char* filename){
 }
 
 void retification::readParameters(){
-  const char* filename = "../../../calib/cam_stereo.yml";
+  const char* filename = "../../calib/cam_stereo.yml";
   retification::readParameters(filename);
 }
 
