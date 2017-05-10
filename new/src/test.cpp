@@ -1,7 +1,7 @@
 #include "VideoSource.hpp"
 
 int main(){
-  VideoSource cam(480, 640);
+  VideoSource cam(640,480);
   cv::Mat imBwFull(cam.getSize(), CV_8UC1);
   cv::Mat imBwL, imBwR, imRgbL, imRgbR;
 
