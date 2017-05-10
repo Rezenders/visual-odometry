@@ -1,6 +1,7 @@
 #ifndef VIDEOSOURCE_HPP
 #define VIDEOSOURCE_HPP
 
+
 #include <iostream>
 #include <mutex>
 #include <thread>
@@ -11,7 +12,8 @@
 * \class retification
 * \brief Classe utilizada para retificar imagens
 */
-class retification{
+
+class retification {
 private:
   cv::Mat R1, R2, P1, P2, Q; //Retification Matrix, Projection Matrix, disparity-to-depth mapping matrix
 	cv::Mat K1, K2, R; // Intrinsics, Rotation
@@ -31,7 +33,19 @@ public:
 
   inline cv::Mat getQ(){return Q;}
 
+  /**
+  * \brief aplica a retificação nas duas imagens passadas como parametro
+  * \param &imRgbL Imagem da esquerda
+  * \param &imRgbR Imagem da direita
+  */
   void rectifyImage(cv::Mat &imRgbL, cv::Mat &imRgbR);
+  /**
+  * \brief aplica a retificação nas duas ultimas imagens passadas como parametro
+  * \param srcL Imagem de origem da esquerda
+  * \param srcR Imagem de origem da direita
+  * \param &imRgbL Imagem destino da esquerda
+  * \param &imRgbR Imagem destino da direita
+  */
   void rectifyImage(cv::Mat srcL, cv::Mat srcR, cv::Mat &dstL, cv::Mat &dstR);
 
 
@@ -39,7 +53,7 @@ public:
 };
 
 /**
-*\class VideoSourceCV
+*\class VideoSource
 *\brief Classe utilizada para capturar já retificadas imagens utilizando OpenCV
 */
 class VideoSource {
@@ -95,4 +109,5 @@ public:
   */
   inline int getWidtht() { return camSize.width; }
 };
+
 #endif
