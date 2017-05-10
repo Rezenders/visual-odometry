@@ -148,3 +148,15 @@ void VideoSource::grabRgbBw(cv::Mat &imBwL, cv::Mat &imBwR, cv::Mat &imRgbL, cv:
   cv::cvtColor(imRgbL, imBwL, cv::COLOR_RGB2GRAY);
 	cv::cvtColor(imRgbR, imBwR, cv::COLOR_RGB2GRAY);
 }
+
+void VideoSource::grabRawRgbBw(cv::Mat &imBwL, cv::Mat &imBwR, cv::Mat &imRgbL, cv::Mat &imRgbR){
+  mutex_left.lock();
+  imRgbL = leftImg;
+  mutex_left.unlock();
+  mutex_right.lock();
+  imRgbR = rightImg;
+  mutex_right.unlock();
+
+  cv::cvtColor(imRgbL, imBwL, cv::COLOR_RGB2GRAY);
+	cv::cvtColor(imRgbR, imBwR, cv::COLOR_RGB2GRAY);
+}

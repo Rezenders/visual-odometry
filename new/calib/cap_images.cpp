@@ -26,7 +26,6 @@ int main(){
       std::cout<<" Space bar was pressed "<<std::endl;
       static int image_number =1;
       SetStringName(leftImagePath, rightImagePath, image_number);
-      std::cout<<rightImagePath<<std::endl;
       imwrite(leftImagePath, imRgbL);
       imwrite(rightImagePath, imRgbR);
       image_number++;
