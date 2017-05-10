@@ -20,7 +20,7 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
                       char* leftimg_dir, char* rightimg_dir, char* leftimg_filename, char* rightimg_filename) {
 
   Size board_size = Size(board_width, board_height);
-  int board_n = board_width * board_height;
+  // int board_n = board_width * board_height;
 
   for (int i = 1; i <= num_imgs; i++) {
     char left_img[100], right_img[100];
@@ -63,9 +63,9 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
       object_points.push_back(obj);
     }
   }
-  for (int i = 0; i < imagePoints1.size(); i++) {
+  for (unsigned int i = 0; i < imagePoints1.size(); i++) {
     vector< Point2f > v1, v2;
-    for (int j = 0; j < imagePoints1[i].size(); j++) {
+    for (unsigned int j = 0; j < imagePoints1[i].size(); j++) {
       v1.push_back(Point2f((double)imagePoints1[i][j].x, (double)imagePoints1[i][j].y));
       v2.push_back(Point2f((double)imagePoints2[i][j].x, (double)imagePoints2[i][j].y));
     }
@@ -93,7 +93,7 @@ int main(int argc, char const *argv[])
     { "rightimg_dir",'R',POPT_ARG_STRING,&rightimg_dir,0,"Directory containing right images","STR" },
     { "leftimg_filename",'l',POPT_ARG_STRING,&leftimg_filename,0,"Left image prefix","STR" },
     { "rightimg_filename",'r',POPT_ARG_STRING,&rightimg_filename,0,"Right image prefix","STR" },
-    
+
     POPT_AUTOHELP
     { NULL, 0, 0, NULL, 0, NULL, NULL }
   };
@@ -118,9 +118,9 @@ int main(int argc, char const *argv[])
   fsr["D"] >> D2;
   int flag = 0;
   flag |= CV_CALIB_FIX_INTRINSIC;
-  
+
   cout << "Read intrinsics" << endl;
-  
+
   stereoCalibrate(object_points, left_img_points, right_img_points, K1, D1, K2, D2, img1.size(), R, T, E, F);
 
   cv::FileStorage fs1(out_file, cv::FileStorage::WRITE);
@@ -132,7 +132,7 @@ int main(int argc, char const *argv[])
   fs1 << "T" << T;
   fs1 << "E" << E;
   fs1 << "F" << F;
-  
+
   printf("Done Calibration\n");
 
   printf("Starting Rectification\n");

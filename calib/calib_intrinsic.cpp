@@ -17,11 +17,11 @@ vector< vector< Point2f > > left_img_points;
 Mat img, gray;
 Size im_size;
 
-void setup_calibration(int board_width, int board_height, int num_imgs, 
+void setup_calibration(int board_width, int board_height, int num_imgs,
                        float square_size, char* imgs_directory, char* imgs_filename,
                        char* extension) {
   Size board_size = Size(board_width, board_height);
-  int board_n = board_width * board_height;
+  // int board_n = board_width * board_height;
 
   for (int k = 1; k <= num_imgs; k++) {
     char img_file[100];
@@ -38,7 +38,7 @@ void setup_calibration(int board_width, int board_height, int num_imgs,
                    TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
       drawChessboardCorners(gray, board_size, corners, found);
     }
-    
+
     vector< Point3f > obj;
     for (int i = 0; i < board_height; i++)
       for (int j = 0; j < board_width; j++)
