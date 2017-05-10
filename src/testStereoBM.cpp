@@ -25,15 +25,6 @@ cv::Ptr<cv::StereoMatcher> right_matcher =
 int main() {
   VideoSource camera(640,480);
 
-/*
-  cv::VideoWriter output;
-  const char *filename = "stereoBm3.avi";
-  // int codec = camera.get_leftcam().get(CV_CAP_PROP_FOURCC);
-  int codec = CV_FOURCC('F', 'M', 'P', '4');
-  double fps = camera.get_leftcam().get(CV_CAP_PROP_FPS);
-
-  output.open(filename, codec, fps, camera.getSize(), false);
-*/
   cv::Mat imBwFull(camera.getHeight(), 2 * camera.getWidtht(), CV_8UC1),
       imRgbFull(camera.getHeight(), 2 * camera.getWidtht(), CV_8UC3);
   cv::Mat imBwL, imBwR, imRgbL, imRgbR, left_disp, right_disp, left_disp_vis,
@@ -49,15 +40,12 @@ int main() {
     cv::ximgproc::getDisparityVis(left_disp, left_disp_vis, 1);
     // cv::GaussianBlur(left_disp_vis, left_disp_vis, cv::Size(9,9),0,0);
     // cv::equalizeHist(left_disp_vis, left_disp_vis);//
-    // output.write(left_disp_vis);
-    // cv::reprojectImageTo3D(left_disp, left_depth, camera.getQ(), false, CV_32F);
 
     imshow("Disparity", left_disp_vis);
     if (cv::waitKey(30) == 27)
       break;
   }
 
-  // output.release();
 }
 
 void create_window_trackbar() {
