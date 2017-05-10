@@ -104,7 +104,9 @@ void VideoSource::function_cap_left() {
   while (leftCam.isOpened()) {
     leftCam.grab();
     leftCam.retrieve(tempImg, CV_8UC3);
+    mutex_right.lock();
     leftImg = tempImg;
+    mutex_right.unlock();
   }
 }
 
@@ -126,13 +128,21 @@ void VideoSource::function_cap_right() {
   while (rightCam.isOpened()) {
     rightCam.grab();
     rightCam.retrieve(tempImg);
+    mutex_left.lock();
     rightImg = tempImg;
+    mutex_left.unlock();
+
   }
 }
 
 void VideoSource::grabRgbBw(cv::Mat &imBwL, cv::Mat &imBwR, cv::Mat &imRgbL, cv::Mat &imRgbR){
+  mutex_left.lock();
   imRgbL = leftImg;
+  mutex_left.unlock();
+  mutex_right.lock();
   imRgbR = rightImg;
+  mutex_right.unlock();
+
   rect.rectifyImage(imRgbL, imRgbR);
 
   cv::cvtColor(imRgbL, imBwL, cv::COLOR_RGB2GRAY);

@@ -12,7 +12,6 @@
 * \class retification
 * \brief Classe utilizada para retificar imagens
 */
-
 class retification {
 private:
   cv::Mat R1, R2, P1, P2, Q; //Retification Matrix, Projection Matrix, disparity-to-depth mapping matrix
@@ -62,7 +61,7 @@ private:
   cv::Mat leftImg, rightImg;
   cv::Size camSize;
 
-  std::thread /*thread_control,*/ thread_cap_left, thread_cap_right;
+  std::thread thread_cap_left, thread_cap_right;
   std::mutex mutex_left, mutex_right;
 
   void function_cap_left();
