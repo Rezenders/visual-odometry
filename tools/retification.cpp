@@ -1,30 +1,30 @@
 #include "retification.hpp"
 
-retification::retification(){
-  const char* filename = "../../calib/cam_stereo.yml";
+retification::retification() {
+  const char *filename = "../../calib/cam_stereo.yml";
   retification::readParameters(filename);
 }
 
-retification::retification(const char* filename){
+retification::retification(const char *filename) {
   retification::readParameters(filename);
 }
 
-retification::retification(cv::Size size, const char* filename){
+retification::retification(cv::Size size, const char *filename) {
   retification::setSize(size);
   retification::readParameters(filename);
 }
 
-void retification::readParameters(){
-  const char* filename = "../../calib/cam_stereo.yml";
+void retification::readParameters() {
+  const char *filename = "../../calib/cam_stereo.yml";
   retification::readParameters(filename);
 }
 
-void retification::readParameters(cv::Size size, const char* filename){
+void retification::readParameters(cv::Size size, const char *filename) {
   retification::setSize(size);
   retification::readParameters(filename);
 }
 
-void retification::readParameters(const char* filename){
+void retification::readParameters(const char *filename) {
   cv::FileStorage fs1(filename, cv::FileStorage::READ);
 
   fs1["K1"] >> K1;
@@ -46,13 +46,14 @@ void retification::readParameters(const char* filename){
   fs1.release();
 }
 
-void retification::rectifyImage(cv::Mat srcL, cv::Mat srcR, cv::Mat &dstL, cv::Mat &dstR){
-  dstL= srcL;
-  dstR= srcR;
-  retification::rectifyImage( dstL, dstR);
+void retification::rectifyImage(cv::Mat srcL, cv::Mat srcR, cv::Mat &dstL,
+                                cv::Mat &dstR) {
+  dstL = srcL;
+  dstR = srcR;
+  retification::rectifyImage(dstL, dstR);
 }
 
-void retification::rectifyImage(cv::Mat &imRgbL, cv::Mat &imRgbR){
+void retification::rectifyImage(cv::Mat &imRgbL, cv::Mat &imRgbR) {
   cv::Mat imAuxL, imAuxR;
 
   cv::remap(imRgbL, imAuxL, lmapx, lmapy, cv::INTER_LINEAR);

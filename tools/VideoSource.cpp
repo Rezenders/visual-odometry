@@ -17,11 +17,10 @@ VideoSource::VideoSource(int width, int height) {
 
   thread_cap_left.detach();
   thread_cap_right.detach();
-
 }
 
-VideoSource::~VideoSource(){
-  std::cout<<"VideoSource destructor"<<std::endl;
+VideoSource::~VideoSource() {
+  std::cout << "VideoSource destructor" << std::endl;
 }
 
 void VideoSource::function_cap_left() {
@@ -69,11 +68,11 @@ void VideoSource::function_cap_right() {
     mutex_left.lock();
     rightImg = tempImg;
     mutex_left.unlock();
-
   }
 }
 
-void VideoSource::grabRgbBw(cv::Mat &imBwL, cv::Mat &imBwR, cv::Mat &imRgbL, cv::Mat &imRgbR){
+void VideoSource::grabRgbBw(cv::Mat &imBwL, cv::Mat &imBwR, cv::Mat &imRgbL,
+                            cv::Mat &imRgbR) {
   mutex_left.lock();
   imRgbL = leftImg;
   mutex_left.unlock();
@@ -84,10 +83,11 @@ void VideoSource::grabRgbBw(cv::Mat &imBwL, cv::Mat &imBwR, cv::Mat &imRgbL, cv:
   rect.rectifyImage(imRgbL, imRgbR);
 
   cv::cvtColor(imRgbL, imBwL, cv::COLOR_RGB2GRAY);
-	cv::cvtColor(imRgbR, imBwR, cv::COLOR_RGB2GRAY);
+  cv::cvtColor(imRgbR, imBwR, cv::COLOR_RGB2GRAY);
 }
 
-void VideoSource::grabRawRgbBw(cv::Mat &imBwL, cv::Mat &imBwR, cv::Mat &imRgbL, cv::Mat &imRgbR){
+void VideoSource::grabRawRgbBw(cv::Mat &imBwL, cv::Mat &imBwR, cv::Mat &imRgbL,
+                               cv::Mat &imRgbR) {
   mutex_left.lock();
   imRgbL = leftImg;
   mutex_left.unlock();
@@ -96,5 +96,5 @@ void VideoSource::grabRawRgbBw(cv::Mat &imBwL, cv::Mat &imBwR, cv::Mat &imRgbL, 
   mutex_right.unlock();
 
   cv::cvtColor(imRgbL, imBwL, cv::COLOR_RGB2GRAY);
-	cv::cvtColor(imRgbR, imBwR, cv::COLOR_RGB2GRAY);
+  cv::cvtColor(imRgbR, imBwR, cv::COLOR_RGB2GRAY);
 }
