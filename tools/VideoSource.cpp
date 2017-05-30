@@ -27,7 +27,7 @@ void VideoSource::function_cap_left() {
   cv::VideoCapture leftCam;
   cv::Mat tempImg;
   leftCam.open(n_left);
-  leftCam.set(CV_CAP_PROP_FPS, 20);
+  leftCam.set(CV_CAP_PROP_FPS, 15);
 
   try {
     if (!leftCam.isOpened()) {
@@ -97,4 +97,19 @@ void VideoSource::grabRawRgbBw(cv::Mat &imBwL, cv::Mat &imBwR, cv::Mat &imRgbL,
 
   cv::cvtColor(imRgbL, imBwL, cv::COLOR_RGB2GRAY);
   cv::cvtColor(imRgbR, imBwR, cv::COLOR_RGB2GRAY);
+}
+
+void VideoSource::grabRgbBw(cv::Mat &imBwL, cv::Mat &imBwR) {
+  cv::Mat aux_rgb_l, aux_rgb_r;
+  mutex_left.lock();
+  aux_rgb_l = leftImg;
+  mutex_left.unlock();
+  mutex_right.lock();
+  aux_rgb_r = rightImg;
+  mutex_right.unlock();
+
+  rect.rectifyImage(aux_rgb_l, aux_rgb_r);
+
+  cv::cvtColor(aux_rgb_l, imBwL, cv::COLOR_RGB2GRAY);
+  cv::cvtColor(aux_rgb_r, imBwR, cv::COLOR_RGB2GRAY);
 }

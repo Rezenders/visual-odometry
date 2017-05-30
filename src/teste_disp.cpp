@@ -3,10 +3,10 @@
 
 int main() {
   VideoSource camera(640,480);
-  Disparity disp_maker(disp_t::BM);
+  Disparity disp_maker(disp_t::BMWLS);
 
   cv::Mat imBwFull(camera.getHeight(), 2 * camera.getWidtht(), CV_8UC1);
-  cv::Mat imBwL, imBwR, imRgbL, imRgbR;
+  cv::Mat imBwL, imBwR;
 
 
   // Creates a window
@@ -14,7 +14,7 @@ int main() {
   cv::namedWindow("Disparity", cv::WINDOW_AUTOSIZE);
 
   while (true) {
-    camera.grabRgbBw(imBwL, imBwR, imRgbL, imRgbR);
+    camera.grabRgbBw(imBwL, imBwR);
     cv::hconcat(imBwL, imBwR, imBwFull);
 
     disp_maker.apply_disparity(imBwL, imBwR);

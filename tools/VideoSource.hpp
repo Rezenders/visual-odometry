@@ -66,6 +66,15 @@ public:
                     cv::Mat &imRgbR);
 
   /**
+  * \brief Pega as imagens capturadas e retificadas
+  * \param[out] &imBwL Matriz que vai conter a Imagem preto e branca do lado
+  * esquerdo
+  * \param[out] &imBwR Matriz que vai conter a Imagem preto e branca do lado
+  * direito
+  */
+  void grabRgbBw(cv::Mat &imBwL, cv::Mat &imBwR);
+
+  /**
   *\brief Retorna o tamanho da Imagem
   *\return Objeto cv::Size
   */
