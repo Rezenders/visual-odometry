@@ -37,7 +37,7 @@ int main() {
 
     left_matcher->compute(imBwL, imBwR, left_disp);
     right_matcher->compute(imBwR, imBwL, right_disp);
-    cv::ximgproc::getDisparityVis(left_disp, left_disp_vis, 1);
+    cv::ximgproc::getDisparityVis(left_disp, left_disp_vis, 5);
     // cv::GaussianBlur(left_disp_vis, left_disp_vis, cv::Size(9,9),0,0);
     // cv::equalizeHist(left_disp_vis, left_disp_vis);//
 
