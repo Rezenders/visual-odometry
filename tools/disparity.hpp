@@ -4,7 +4,7 @@
 #include <opencv2/opencv.hpp>
 #include "opencv2/ximgproc/disparity_filter.hpp"
 
-enum class disp_t {BM, BMWLS};
+enum class disp_t {BM, BMG, BMWLS};
 
 class Disparity {
 private:
@@ -14,9 +14,9 @@ private:
   cv::Mat filtered_disp;
 
   int numDisparities = 64, SADWindowSize = 15;
-  int minDisparity = 0, speckleWindowSize = 0, speckleRange = 1,
-      textureThreshold = 450, uniquessRatio = 1, prefilterCap = 61,
-      prefilterSize = 5;
+  int minDisparity = -30, speckleWindowSize = 0, speckleRange = 1000,
+      textureThreshold = 3100, uniquessRatio = 1, prefilterCap = 63,
+      prefilterSize = 255;
 
   cv::Ptr<cv::StereoBM> left_matcher =
       cv::StereoBM::create(numDisparities, SADWindowSize);
@@ -28,9 +28,10 @@ private:
 
 
 public:
-  Disparity():disp_type(disp_t::BMWLS){std::cout<<"Construtor de disparity"<<std::endl;}
-  Disparity(disp_t type):disp_type(type){std::cout<<"Construtor de disparity"<<std::endl;};
+  Disparity();
+  Disparity(disp_t type);
 
+  void set_all_params();
 
   /**
   * \brief Calcula o mapa de disparidade para as imagens passadas
@@ -67,6 +68,7 @@ public:
   * \param scale escala para o mapa de disparidade
   **/
   cv::Mat get_filtered_disp_vis(unsigned int scale = 5);
+
 
 };
 

@@ -1,6 +1,37 @@
 #include "disparity.hpp"
 
+Disparity::Disparity(){
+  disp_type = disp_t::BMWLS;
+  set_all_params();
+  std::cout<<"Construtor de disparity"<<std::endl;
+}
+
+Disparity::Disparity(disp_t type){
+  disp_type = type;
+  set_all_params();
+  std::cout<<"Construtor de disparity"<<std::endl;
+}
+
+void Disparity::set_all_params(){
+  left_matcher->setMinDisparity(minDisparity);
+  left_matcher->setSpeckleWindowSize(speckleWindowSize);
+  left_matcher->setSpeckleRange(speckleRange);
+  left_matcher->setTextureThreshold(textureThreshold);
+  left_matcher->setUniquenessRatio(uniquessRatio);
+  left_matcher->setPreFilterCap(prefilterCap);
+  left_matcher->setPreFilterSize(prefilterSize);
+}
+
 void Disparity::apply_disparity(cv::Mat left_img, cv::Mat right_img){
+  switch(disp_type){
+    case disp_t::BMG:
+      cv::GaussianBlur(left_img, left_img, cv::Size(35,35),0,0);
+      cv::GaussianBlur(right_img, right_img, cv::Size(35,35),0,0);
+    break;
+    default:
+    break;
+  }
+
   left_matcher->compute(left_img, right_img, left_disp);
   right_matcher->compute(right_img, left_img, right_disp);
 
@@ -26,8 +57,9 @@ cv::Mat Disparity::get_right_disp_vis(unsigned int scale){
 
 cv::Mat Disparity::get_filtered_disp_vis(unsigned int scale){
   cv::Mat aux_vis;
-  if(filtered_disp.data == NULL){
+  if(disp_type != disp_t::BMWLS){
     filtered_disp = left_disp;
+
   }
   cv::ximgproc::getDisparityVis(filtered_disp, aux_vis, scale);
   return aux_vis;
