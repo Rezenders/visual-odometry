@@ -7,9 +7,9 @@ int main() {
   Disparity disp_maker(disp_t::BMWLS);
   cv::VideoWriter outputRgb, outputBw, outputDisp;
 
-  outputRgb.open("outputRgbBMWLS.avi",CV_FOURCC('M','J','P','G'), camera.getFps(), cv::Size(camera.getWidth()*2,camera.getHeight()),true);
-  outputBw.open("outputBwBMWLS.avi",CV_FOURCC('M','J','P','G'), camera.getFps(), cv::Size(camera.getWidth()*2,camera.getHeight()),true);
-  outputDisp.open("outputDispBMWLS.avi",CV_FOURCC('M','J','P','G'), camera.getFps(), camera.getSize(),true);
+  outputRgb.open("outputRgbBMWLS.avi",CV_FOURCC('W', 'M', 'V', '2'), camera.getFps(), cv::Size(camera.getWidth()*2,camera.getHeight()),true);
+  outputBw.open("outputBwBMWLS.avi",CV_FOURCC('W', 'M', 'V', '2'), camera.getFps(), cv::Size(camera.getWidth()*2,camera.getHeight()),false);
+  outputDisp.open("outputDispBMWLS.avi",CV_FOURCC('W', 'M', 'V', '2'), camera.getFps(), camera.getSize(),false);
 
   cv::Mat imBwFull(camera.getHeight(), 2 * camera.getWidth(), CV_8UC1),
             imRgbFull(camera.getHeight(), 2 * camera.getWidth(), CV_8UC3);
@@ -31,11 +31,11 @@ int main() {
     outputRgb << imRgbFull;
     outputBw << imBwFull;
     outputDisp << disp_maker.get_filtered_disp_vis();
+
     imshow("Original", imBwFull);
     imshow("Disparity", disp_maker.get_filtered_disp_vis());
 
     if (cv::waitKey(30) == 27)
-
       break;
   }
   outputRgb.release();
