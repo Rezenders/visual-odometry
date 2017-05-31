@@ -17,6 +17,7 @@ class VideoSource {
 private:
   int n_left = 1, n_right = 0;
   cv::Mat leftImg, rightImg;
+  unsigned int fps = 15;
   cv::Size camSize;
 
   std::thread thread_cap_left, thread_cap_right;
@@ -88,7 +89,9 @@ public:
   *\brief Retorna a largura da Imagem
   *\return Variavel do tipo int
   */
-  inline int getWidtht() { return camSize.width; }
+  inline int getWidth() { return camSize.width; }
+
+  inline unsigned int getFps(){return fps;}
 };
 
 #endif

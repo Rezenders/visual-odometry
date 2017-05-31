@@ -25,8 +25,8 @@ cv::Ptr<cv::StereoMatcher> right_matcher =
 int main() {
   VideoSource camera(640,480);
 
-  cv::Mat imBwFull(camera.getHeight(), 2 * camera.getWidtht(), CV_8UC1),
-      imRgbFull(camera.getHeight(), 2 * camera.getWidtht(), CV_8UC3);
+  cv::Mat imBwFull(camera.getHeight(), 2 * camera.getWidth(), CV_8UC1),
+      imRgbFull(camera.getHeight(), 2 * camera.getWidth(), CV_8UC3);
   cv::Mat imBwL, imBwR, imRgbL, imRgbR, left_disp, right_disp, left_disp_vis,
       left_depth;
 

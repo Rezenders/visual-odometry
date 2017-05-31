@@ -5,7 +5,7 @@ int main() {
   VideoSource camera(640,480);
   Disparity disp_maker(disp_t::BMWLS);
 
-  cv::Mat imBwFull(camera.getHeight(), 2 * camera.getWidtht(), CV_8UC1);
+  cv::Mat imBwFull(2 * camera.getWidth(),camera.getHeight(), CV_8UC1);
   cv::Mat imBwL, imBwR;
 
 
