@@ -4,41 +4,27 @@
 #include <opencv2/opencv.hpp>
 #include "opencv2/ximgproc/disparity_filter.hpp"
 
-enum class disp_t {BM, BMG, BMWLS};
+enum class disp_t {BM, BMG, BMWLS, ELAS};
 
 class Disparity {
-private:
+protected:
   disp_t disp_type;
 
   cv::Mat left_disp, right_disp;
   cv::Mat filtered_disp;
 
-  int numDisparities = 64, SADWindowSize = 15;
-  int minDisparity = -30, speckleWindowSize = 0, speckleRange = 1000,
-      textureThreshold = 3100, uniquessRatio = 1, prefilterCap = 63,
-      prefilterSize = 255;
-
-  cv::Ptr<cv::StereoBM> left_matcher =
-      cv::StereoBM::create(numDisparities, SADWindowSize);
-  cv::Ptr<cv::StereoMatcher> right_matcher =
-      cv::ximgproc::createRightMatcher(left_matcher);
-
-  unsigned int lambda =8000, sigma_color= 2.0;
-  cv::Ptr<cv::ximgproc::DisparityWLSFilter> wls_filter;
-
-
 public:
-  Disparity();
-  Disparity(disp_t type);
+  Disparity(){std::cout<<"Construtor padrão de Disparity"<<std::endl;};
+  // Disparity(disp_t type);
 
-  void set_all_params();
+  static Disparity *create(disp_t type);
 
   /**
   * \brief Calcula o mapa de disparidade para as imagens passadas
   * \param left_img imagem retificada da esquerda
   * \param right_img imagem retificada da direita
   **/
-  void apply_disparity(cv::Mat left_img, cv::Mat right_img);
+  virtual void apply_disparity(cv::Mat left_img, cv::Mat right_img) =0;
 
   /**
   * \brief Retorna o mapa de disparidade da imagem da esquerda
@@ -69,6 +55,30 @@ public:
   **/
   cv::Mat get_filtered_disp_vis(unsigned int scale = 5);
 
+
+};
+
+class DisparityBM : public Disparity{
+
+private:
+  int numDisparities = 64, SADWindowSize = 15;
+  int minDisparity = -30, speckleWindowSize = 0, speckleRange = 1000,
+      textureThreshold = 3100, uniquessRatio = 1, prefilterCap = 63,
+      prefilterSize = 255;
+
+  cv::Ptr<cv::StereoBM> left_matcher =
+      cv::StereoBM::create(numDisparities, SADWindowSize);
+  cv::Ptr<cv::StereoMatcher> right_matcher =
+      cv::ximgproc::createRightMatcher(left_matcher);
+
+  unsigned int lambda =8000, sigma_color= 2.0;
+  cv::Ptr<cv::ximgproc::DisparityWLSFilter> wls_filter;
+
+public:
+  DisparityBM(disp_t type);
+
+  void set_all_params();
+  void apply_disparity(cv::Mat left_img, cv::Mat right_img);
 
 };
 

@@ -4,7 +4,7 @@
 
 int main() {
   VideoSource camera(640,480);
-  Disparity disp_maker(disp_t::BMWLS);
+  Disparity *disp_maker = Disparity::create(disp_t::BMWLS);
   cv::VideoWriter outputRgb, outputBw, outputDisp;
 
   outputRgb.open("outputRgbBMWLS.avi",CV_FOURCC('W', 'M', 'V', '2'), camera.getFps(), cv::Size(camera.getWidth()*2,camera.getHeight()),true);
@@ -26,14 +26,14 @@ int main() {
     cv::hconcat(imBwL, imBwR, imBwFull);
     cv::hconcat(imRgbL, imRgbR, imRgbFull);
 
-    disp_maker.apply_disparity(imBwL, imBwR);
+    disp_maker->apply_disparity(imBwL, imBwR);
 
     outputRgb << imRgbFull;
     outputBw << imBwFull;
-    outputDisp << disp_maker.get_filtered_disp_vis();
+    outputDisp << disp_maker->get_filtered_disp_vis();
 
     imshow("Original", imBwFull);
-    imshow("Disparity", disp_maker.get_filtered_disp_vis());
+    imshow("Disparity", disp_maker->get_filtered_disp_vis());
 
     if (cv::waitKey(30) == 27)
       break;

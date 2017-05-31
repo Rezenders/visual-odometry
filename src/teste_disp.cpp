@@ -3,7 +3,7 @@
 
 int main() {
   VideoSource camera(640,480);
-  Disparity disp_maker(disp_t::BMWLS);
+  Disparity *disp_maker = Disparity::create(disp_t::BMWLS);
 
   cv::Mat imBwFull(2 * camera.getWidth(),camera.getHeight(), CV_8UC1);
   cv::Mat imBwL, imBwR;
@@ -17,10 +17,10 @@ int main() {
     camera.grabRgbBw(imBwL, imBwR);
     cv::hconcat(imBwL, imBwR, imBwFull);
 
-    disp_maker.apply_disparity(imBwL, imBwR);
+    disp_maker->apply_disparity(imBwL, imBwR);
 
     imshow("Original", imBwFull);
-    imshow("Disparity", disp_maker.get_filtered_disp_vis());
+    imshow("Disparity", disp_maker->get_filtered_disp_vis());
 
     if (cv::waitKey(30) == 27)
       break;
